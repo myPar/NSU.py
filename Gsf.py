@@ -1,3 +1,6 @@
+import math
+
+
 def gsf(a: int, b: int) -> int:
     if a == 0:
         return b
@@ -17,6 +20,8 @@ def main():
     (a, b) = input().split(" ")
     a = int(a)
     b = int(b)
+    a = abs(a)
+    b = abs(b)
     print(solution(a, b))
 
 
