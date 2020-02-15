@@ -40,11 +40,7 @@ def solution(input_list: List[float]):
 
 
 def main():
-    str_arr = input().split(" ")
-    input_list = []
-
-    for i in range(len(str_arr)):
-        input_list.append(float(str_arr[i]))
+    input_list = list(map(float, input().split()))
     print(solution(input_list))
 
 
