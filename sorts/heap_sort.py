@@ -3,36 +3,36 @@ from typing import List
 
 def trickle_up(index: int, heap_array: List[float]):  # move node up in the pyramid
     node_value = heap_array[index]
-    paren_ind = int((index - 1) / 2)
+    paren_idx = (index - 1) // 2
 
-    while index > 0 and node_value > heap_array[paren_ind]:
+    while index > 0 and node_value > heap_array[paren_idx]:
         node_value = heap_array[index]
 
-        heap_array[index] = heap_array[paren_ind]  # swap node and paren
-        heap_array[paren_ind] = node_value
+        heap_array[index] = heap_array[paren_idx]  # swap node and paren
+        heap_array[paren_idx] = node_value
 
-        index = paren_ind  # change current index on paren index
-        paren_ind = int((index - 1) / 2)    # change paren index
+        index = paren_idx  # change current index on paren index
+        paren_idx = (index - 1) // 2    # change paren index
 
 
 def trickle_down(index: int, heap_array: List[float]):  # move node down from root in the pyramid
 
-    while index < int(len(heap_array) / 2):  # while node have children
+    while index < len(heap_array) // 2:  # while node have children
         node_value = heap_array[index]
-        left_ind = index * 2 + 1
-        right_ind = index * 2 + 2
+        left_idx = index * 2 + 1
+        right_idx = index * 2 + 2
 
-        if right_ind < len(heap_array) and heap_array[left_ind] < heap_array[right_ind]:  # check consistence of right child; get current maximum child index
-            max_child_ind = right_ind
+        if right_idx < len(heap_array) and heap_array[left_idx] < heap_array[right_idx]:  # check consistence of right child; get current maximum child index
+            max_child_idx = right_idx
         else:
-            max_child_ind = left_ind
+            max_child_idx = left_idx
 
-        if node_value < heap_array[max_child_ind]:  # swap node and child
-            heap_array[index] = heap_array[max_child_ind]
-            heap_array[max_child_ind] = node_value
+        if node_value < heap_array[max_child_idx]:  # swap node and child
+            heap_array[index] = heap_array[max_child_idx]
+            heap_array[max_child_idx] = node_value
         else:
             break
-        index = max_child_ind
+        index = max_child_idx
 
 
 def insert(node: float, heap_array: List[float]):  # inserts new node in pyramid
@@ -41,9 +41,9 @@ def insert(node: float, heap_array: List[float]):  # inserts new node in pyramid
 
 
 def remove(heap_list: List[float]):  # remove root from the heap
-    last_ind = len(heap_list) - 1
-    heap_list[0] = heap_list[last_ind]  # replace root on last element
-    heap_list.pop(last_ind)  # remove last element
+    last_idx = len(heap_list) - 1
+    heap_list[0] = heap_list[last_idx]  # replace root on last element
+    heap_list.pop(last_idx)  # remove last element
 
 
 def heap_sort(input_list: List[float]) -> List[float]:

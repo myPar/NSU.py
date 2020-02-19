@@ -10,6 +10,8 @@ def benchmark(sort_function, input_list: List[float]):  # default time benchmark
     return abs(end_time - start_time)    # return delta time in micro seconds
 
 
-def sorted_benchmark(sort_function, input_list: List[float]):  # benchmark for reversed sorted arrays
+def standard_benchmark(input_list: List[float]):
+    start_time = time.perf_counter()
     input_list.sort()
-    return benchmark(sort_function, input_list)
+    end_time = time.perf_counter()
+    return abs(end_time - start_time)

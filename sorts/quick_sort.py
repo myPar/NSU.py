@@ -1,11 +1,11 @@
 from typing import List
 
 
-def quick_sort(left_ind: int, right_ind: int, input_list: List[float]):
-    if left_ind < right_ind:  # while left index less then right index do recursion
-        middle_ind = partion(left_ind, right_ind, input_list)
-        quick_sort(left_ind, middle_ind, input_list)  # apply function for left part of list
-        quick_sort(middle_ind + 1, right_ind, input_list)  # apply function for right part of list
+def quick_sort(left_idx: int, right_idx: int, input_list: List[float]):
+    if left_idx < right_idx:
+        middle_idx = partion(left_idx, right_idx, input_list)
+        quick_sort(left_idx, middle_idx, input_list)  # apply function for left part of list
+        quick_sort(middle_idx + 1, right_idx, input_list)  # apply function for right part of list
     else:
         return
 
@@ -14,12 +14,10 @@ def swap(i: int, j: int, input_list: List[float]):
     input_list[i], input_list[j] = input_list[j], input_list[i]
 
 
-# function swap elements by left and right side from central element if left element bigger then central and if right
-# element less then central:
-def partion(left_ind: int, right_ind: int, input_list: List[float]) -> int:
-    center = input_list[int((left_ind + right_ind) / 2)]
-    i = left_ind
-    j = right_ind
+def partion(left_idx: int, right_idx: int, input_list: List[float]) -> int:
+    center = input_list[(left_idx + right_idx) // 2]
+    i = left_idx
+    j = right_idx
 
     while i <= j:
         while input_list[i] < center:  # if left element less then center element move index right
@@ -28,7 +26,7 @@ def partion(left_ind: int, right_ind: int, input_list: List[float]) -> int:
             j -= 1
         if i >= j:
             break
-        swap(i, j, input_list)  # swap two elements
+        swap(i, j, input_list)
         i += 1  # increment indexes after swap
         j -= 1  #
     return j  # return index

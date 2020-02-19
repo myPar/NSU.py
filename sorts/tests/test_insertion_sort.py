@@ -1,5 +1,5 @@
 import copy
-from sorts import paste_sort
+from sorts import insertion_sort
 from sorts.tests.list_generator import get_random_list
 
 
@@ -7,19 +7,19 @@ from sorts.tests.list_generator import get_random_list
 test_list = get_random_list(1)
 copy_list = copy.copy(test_list)
 copy_list.sort()
-assert (paste_sort.paste_sort(test_list) == copy_list)
+assert (insertion_sort.insertion_sort(test_list) == copy_list)
 
 test_list = get_random_list(3)
 copy_list = copy.copy(test_list)
 copy_list.sort()
-assert (paste_sort.paste_sort(test_list) == copy_list)
+assert (insertion_sort.insertion_sort(test_list) == copy_list)
 
 test_list = get_random_list(5)
 copy_list = copy.copy(test_list)
 copy_list.sort()
-assert (paste_sort.paste_sort(test_list) == copy_list)
+assert (insertion_sort.insertion_sort(test_list) == copy_list)
 
 test_list = get_random_list(10)
 copy_list = copy.copy(test_list)
 copy_list.sort()
-assert (paste_sort.paste_sort(test_list) == copy_list)
+assert (insertion_sort.insertion_sort(test_list) == copy_list)
