@@ -42,7 +42,7 @@ def radix_sort(input_block: List[str], rank_idx: int, max_rank: int) -> List[str
     blocks = [[], [], [], [], [], [], [], [], [], []]
 
     for i in range(len(input_block)):
-        blocks[int(input_block[i][rank_idx])].append(input_block[i])    # split elements on blocks, index matches
+        blocks[int(input_block[i][rank_idx])].append(input_block[i])    # split elements on blocks; block index matches
                                                                         # numerals stands in rank_idx place in numbers in the block
     for i in range(len(blocks)):
         if len(blocks[i]) != 0:
