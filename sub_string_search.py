@@ -40,9 +40,25 @@ def z_function_improve(input_string: str) -> List[int]:
     return z_function
 
 
+def get_substrings_indices(input_string: str, substring: str, z_function):  # returns list of indices from which substring begins in main string
+    z_function_array = z_function(substring + "#" + input_string)           # #-split symbol
+    index_list = []
+
+    for i in range(len(substring), len(z_function_array)):
+        if z_function_array[i] == len(substring):
+            index_list.append(i - len(substring) - 1)
+    return index_list
+
+
 def main():
     input_string = input()
-    print(z_function_improve(input_string))
+    sub_string = input()
+    index_list = get_substrings_indices(input_string, sub_string, z_function_improve)
+
+    if len(index_list) > 0:
+        print(index_list)
+    else:
+        print("No such substring")
 
 
 if __name__ == "__main__":
