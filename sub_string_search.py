@@ -1,5 +1,4 @@
 from typing import List
-import numpy as np
 
 
 def z_function_simple(input_string: str) -> List[int]:
