@@ -4,7 +4,6 @@ from sub_string_search import z_function_improve
 from sub_string_search import z_function_simple
 from tests.substring_search_tests.benchmark import benchmark
 import matplotlib.pyplot as plt
-import numpy as np
 
 
 def get_substrings_indices(input_string: str, substring: str) -> List[int]:
@@ -30,8 +29,8 @@ def test_solution():
     for line in tests_data.readlines():
         line = line.rstrip()
         input_string, substring = line.split(" ")
-        assert (get_substrings_indices(input_string, substring) == sub_string_search.get_substrings_indices(
-            input_string, substring, z_function_simple))
+        assert get_substrings_indices(input_string, substring) == sub_string_search.get_substrings_indices(
+            input_string, substring, z_function_simple)
         assert (get_substrings_indices(input_string, substring) == sub_string_search.get_substrings_indices(
             input_string, substring, z_function_improve))
     tests_data.close()
@@ -67,3 +66,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+#pytest, unittest

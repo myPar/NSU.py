@@ -12,14 +12,15 @@ def z_function_simple(input_string: str) -> List[int]:
                 break
             j += 1
         z_function.append(j)
+
     return z_function
 
 
 def get_list(length: int):
     output_list = []
-
     for i in range(length):
         output_list.append(0)
+
     return output_list
 
 
@@ -36,6 +37,7 @@ def z_function_improve(input_string: str) -> List[int]:
         if i + z_function[i] > right:       # if z-block is out of range of block [left-right], change left and right border on i and i + z_function[i]
             left = i
             right = i + z_function[i]
+
     return z_function
 
 
@@ -46,6 +48,7 @@ def get_substrings_indices(input_string: str, substring: str, z_function):  # re
     for i in range(len(substring), len(z_function_array)):
         if z_function_array[i] == len(substring):
             index_list.append(i - len(substring) - 1)
+
     return index_list
 
 
