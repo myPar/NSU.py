@@ -16,7 +16,7 @@ def prefix_function(input_string: str) -> List[int]:
     return prefix_list
 
 
-def sub_string_search(substring: str, input_string: str) -> List[int]:
+def sub_string_search(input_string: str, substring: str) -> List[int]:
     prefix_list = prefix_function(substring + "#" + input_string)
     index_list = []
 
@@ -29,7 +29,7 @@ def sub_string_search(substring: str, input_string: str) -> List[int]:
 
 def main():
     input_string, pattern = input().split()
-    print(sub_string_search(pattern, input_string))
+    print(sub_string_search(input_string, pattern))
 
 
 if __name__ == "__main__":

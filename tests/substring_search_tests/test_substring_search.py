@@ -2,8 +2,10 @@ from typing import List
 import sub_string_search
 from sub_string_search import z_function_improve
 from sub_string_search import z_function_simple
-from tests.substring_search_tests.benchmark import benchmark
+from tests.substring_search_tests.benchmark import benchmark, benchmark_morris
 import matplotlib.pyplot as plt
+import sub_string_morris_pratt
+from tests.substring_search_tests.test_generator import generator
 
 
 def get_substrings_indices(input_string: str, substring: str) -> List[int]:
@@ -24,6 +26,7 @@ def get_substrings_indices(input_string: str, substring: str) -> List[int]:
 
 
 def test_solution():
+    generator(30, "ab", 20, 3)
     tests_data = open("tests_data")
 
     for line in tests_data.readlines():
@@ -31,8 +34,10 @@ def test_solution():
         input_string, substring = line.split(" ")
         assert get_substrings_indices(input_string, substring) == sub_string_search.get_substrings_indices(
             input_string, substring, z_function_simple)
-        assert (get_substrings_indices(input_string, substring) == sub_string_search.get_substrings_indices(
-            input_string, substring, z_function_improve))
+        assert get_substrings_indices(input_string, substring) == sub_string_search.get_substrings_indices(
+            input_string, substring, z_function_improve)
+        assert get_substrings_indices(input_string, substring) == sub_string_morris_pratt.sub_string_search(
+            input_string, substring)
     tests_data.close()
 
 
@@ -41,6 +46,7 @@ def main():
 
     time_list1 = []
     time_list2 = []
+    time_list3 = []
     tests_data = open("tests_data")
     line_number = 0
 
@@ -50,7 +56,7 @@ def main():
         input_string, substring = line.split(" ")
         time_list1.append(benchmark(input_string, substring, z_function_simple))
         time_list2.append(benchmark(input_string, substring, z_function_improve))
-
+        time_list3.append(benchmark_morris(input_string, substring))
     fig = plt.figure()
     ax = fig.add_subplot()
     ax.set_xlabel('tests')
@@ -60,6 +66,7 @@ def main():
 
     ax.plot(x_list, time_list1, color='blue', label='simple z_function')
     ax.plot(x_list, time_list2, color='red', label='linear z_function')
+    ax.plot(x_list, time_list3, color='green', label='morris-pratt')
     plt.legend()
     plt.show()
 
