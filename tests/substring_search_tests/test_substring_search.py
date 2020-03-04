@@ -26,7 +26,9 @@ def get_substrings_indices(input_string: str, substring: str) -> List[int]:
 
 
 def test_solution():
-    generator(30, "ab", 20, 3)
+    generator(15, "ab", 20, 3, 1)   # input format - (line number, character library, string length, substring length, open type)
+    generator(15, "cde", 10, 1, 2)
+    generator(15, "fghi", 20, 3, 2)
     tests_data = open("tests_data")
 
     for line in tests_data.readlines():
