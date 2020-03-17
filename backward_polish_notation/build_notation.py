@@ -1,5 +1,6 @@
 import re
 from typing import List
+from backward_polish_notation.Exception import *
 
 
 class Node(object):
@@ -9,18 +10,73 @@ class Node(object):
         self.value = value
 
     def calculate(self, operand1: float, operand2: float) -> float:
-        if self == '+':
+        if self.value == '+':
             return operand1 + operand2
-        if self == '-':
+        if self.value == '-':
             return operand1 - operand2
-        if self == '*':
+        if self.value == '*':
             return operand1 * operand2
-        if self == '/':
+        if self.value == '/':
+            if operand2 == 0:
+                raise CalculateException("division by zero")
             return operand1 / operand2
 
+    def get_priority(self):
+        if self.value == '+' or self.value == '-':
+            return 1
+        if self.value == '*' or self.value == '/':
+            return 2
 
-def build():  # build notation function
-    pass
+
+def build(input_list: List[Node]) -> List[Node]:  # build notation function
+    output_stack = []
+    operation_stack = []
+    parenthesis_count = 0
+
+    while len(input_list) > 0:
+        node = input_list.pop(0)
+
+        if node.type == "operand":
+            output_stack.append(node)
+        else:
+            if node.type == "operation":
+                operation_stack.append(node)
+                last_idx = len(operation_stack) - 1
+
+                if last_idx > 0:        # check the priority
+                    if node.get_priority() < operation_stack[last_idx - 1].get_priority():
+                        output_stack.append(operation_stack.pop(last_idx - 1))
+                operation_stack.append(node)
+            else:
+                if node.value == '(':
+                    parenthesis_count += 1
+                if node.value == ')':
+                    parenthesis_count -= 1
+
+                    is_complete = False
+
+                    for i in range(len(operation_stack) - 1, 0, -1):    # push parenthesis body in the output stack
+                        if operation_stack[i] == '(':
+                            is_complete = True
+                            operation_stack.pop(i)
+                            break
+                        else:
+                            output_stack.append(operation_stack.pop(i))
+
+                    if not is_complete:     # parenthesis balance disturbed
+                        raise ParenthesisException("complete the expression by '('")
+
+    if parenthesis_count != 0:      # parenthesis balance disturbed
+        raise ParenthesisException("complete the expression by ')'")
+
+    length = len(operation_stack)
+
+    if length > 0:
+        while length > 0:       # push remaining elements in the output stack
+            output_stack.append(operation_stack.pop(length - 1))
+            length -= 1
+
+    return output_stack
 
 
 def get_float_value(input_string: str) -> float:
@@ -37,7 +93,7 @@ def get_float_value(input_string: str) -> float:
 
             if ch == ".":   # possible exceptions: two '.' in one number, '.' is the last symbol of the string, not number character after '.'
                 if has_point or i >= len(input_string) - 1 or not(re.search(r'[0-9]', input_string[i + 1])):
-                    print("incorrect float number")
+                    raise SyntaxException("incorrect float number")
                 else:
                     number += ch
                     has_point = True
@@ -66,7 +122,7 @@ def get_node(input_string: str) -> Node:
             else:
                 return Node("operation", ch)    # operation case
         else:
-            print("unacceptable input symbol")
+            raise SyntaxException("unacceptable input symbol")
 
 
 def parse_string(input_string: str) -> List[Node]:
