@@ -6,20 +6,20 @@ from backward_polish_notation.Exception import *
 class Node(object):
 
     def __init__(self, node_type: str, value):
-        self.type = node_type  # item types - (float value, operation, parenthesis)
+        self.type = node_type  # item types - (operand, operation, parenthesis)
         self.value = value
 
-    def calculate(self, operand1: float, operand2: float) -> float:
+    def calculate(self, operand1: float, operand2: float) -> object:
         if self.value == '+':
-            return operand1 + operand2
+            return Node("operand", operand1 + operand2)
         if self.value == '-':
-            return operand1 - operand2
+            return Node("operand", operand1 - operand2)
         if self.value == '*':
-            return operand1 * operand2
+            return Node("operand", operand1 * operand2)
         if self.value == '/':
             if operand2 == 0:
                 raise CalculateException("division by zero")
-            return operand1 / operand2
+            return Node("operand", operand1 / operand2)
 
     def get_priority(self):
         if self.value == '+' or self.value == '-':
@@ -29,7 +29,7 @@ class Node(object):
 
 
 def build(input_list: List[Node]) -> List[Node]:  # build notation function
-    output_stack = []
+    output_list = []
     operation_stack = []
     parenthesis_count = 0
 
@@ -37,31 +37,38 @@ def build(input_list: List[Node]) -> List[Node]:  # build notation function
         node = input_list.pop(0)
 
         if node.type == "operand":
-            output_stack.append(node)
+            output_list.append(node)       # push operand in the output stack
         else:
             if node.type == "operation":
-                operation_stack.append(node)
-                last_idx = len(operation_stack) - 1
 
-                if last_idx > 0:        # check the priority
-                    if node.get_priority() < operation_stack[last_idx - 1].get_priority():
-                        output_stack.append(operation_stack.pop(last_idx - 1))
+                while len(operation_stack) > 0:
+                    last_idx = len(operation_stack) - 1
+
+                    if operation_stack[last_idx].value == '(':
+                        break
+
+                    if node.get_priority() > operation_stack[last_idx].get_priority():
+                        break
+                    else:
+                        output_list.append(operation_stack.pop(last_idx))
+
                 operation_stack.append(node)
             else:
                 if node.value == '(':
                     parenthesis_count += 1
+                    operation_stack.append(node)
                 if node.value == ')':
                     parenthesis_count -= 1
 
                     is_complete = False
 
-                    for i in range(len(operation_stack) - 1, 0, -1):    # push parenthesis body in the output stack
-                        if operation_stack[i] == '(':
+                    for i in range(len(operation_stack) - 1, -1, -1):    # push parenthesis body in the output stack
+                        if operation_stack[i].value == '(':
                             is_complete = True
-                            operation_stack.pop(i)
+                            operation_stack.pop(i)  # pop parenthesis
                             break
                         else:
-                            output_stack.append(operation_stack.pop(i))
+                            output_list.append(operation_stack.pop(i))
 
                     if not is_complete:     # parenthesis balance disturbed
                         raise ParenthesisException("complete the expression by '('")
@@ -73,10 +80,10 @@ def build(input_list: List[Node]) -> List[Node]:  # build notation function
 
     if length > 0:
         while length > 0:       # push remaining elements in the output stack
-            output_stack.append(operation_stack.pop(length - 1))
+            output_list.append(operation_stack.pop(length - 1))
             length -= 1
 
-    return output_stack
+    return output_list
 
 
 def get_float_value(input_string: str) -> float:
@@ -137,11 +144,3 @@ def parse_string(input_string: str) -> List[Node]:
 
     return node_list
 
-
-def main():
-    input_string = input()
-    parse_string(input_string)
-
-
-if __name__ == "__main__":
-    main()
