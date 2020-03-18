@@ -82,7 +82,6 @@ def build(input_list: List[Node]) -> List[Node]:  # build notation function
         while length > 0:       # push remaining elements in the output stack
             output_list.append(operation_stack.pop(length - 1))
             length -= 1
-
     return output_list
 
 

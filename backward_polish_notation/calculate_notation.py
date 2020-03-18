@@ -18,7 +18,7 @@ def calculate(polish_notation: List[Node]) -> float:
 
         polish_notation.insert(op_idx - 2, operation.calculate(operand1.value, operand2.value))
 
-    if not (polish_notation[0].type == "operand"):
+    if len(polish_notation) == 0 or not (polish_notation[0].type == "operand"):
         raise CalculateException("incorrect expression")
     return polish_notation[0].value
 
