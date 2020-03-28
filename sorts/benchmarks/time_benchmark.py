@@ -7,7 +7,7 @@ def benchmark(sort_function, input_list: List[float]):  # default time benchmark
     start_time = time.perf_counter()
     sort_function(input_list)       # call of sort function
     end_time = time.perf_counter()
-    return abs(end_time - start_time)    # return delta time in micro seconds
+    return abs(end_time - start_time)    # return delta time in seconds
 
 
 def standard_benchmark(input_list: List[float]):

@@ -6,7 +6,9 @@ from sorts import selection_sort
 from sorts import merge_sort
 from sorts import heap_sort
 from sorts import quick_sort
+from sorts import radix_sort
 from sorts.tests.list_generator import get_random_list
+from sorts.tests.list_generator import get_random_int_list
 from sorts.benchmarks.time_benchmark import benchmark
 from sorts.benchmarks.time_benchmark import standard_benchmark
 import numpy as np
@@ -40,29 +42,32 @@ def build_quadratic_sorts(max_arr_len: int, is_sorted: bool):
 
 
 def build_NlogN_sorts(max_arr_len: int, is_sorted: bool):
-    time_dict = {"quick_sort": [], "merge_sort": [], "heap_sort": [], "standard_sort": []}
+    time_dict = {"quick_sort": [], "merge_sort": [], "heap_sort": [], "standard_sort": [], "radix_sort": []}
     size_list = np.arange(1, max_arr_len + 1, 100)
 
     for val in size_list:  # run benchmarks on arrays with different length, from 1 to max_arr_len
-        input_arr = get_random_list(val)  # get list of length i with random elements
+        input_arr = get_random_int_list(val)  # get list of length i with random elements
 
         if not is_sorted:
             time_dict["quick_sort"].append(benchmark(quick_sort.solution, copy.copy(input_arr)))
             time_dict["merge_sort"].append(benchmark(merge_sort.merge_sort, copy.copy(input_arr)))
             time_dict["heap_sort"].append(benchmark(heap_sort.heap_sort, copy.copy(input_arr)))
             time_dict["standard_sort"].append(standard_benchmark(copy.copy(input_arr)))
+            time_dict["radix_sort"].append(benchmark(radix_sort.solution, copy.copy(input_arr)))
         else:
             time_dict["quick_sort"].append(benchmark(quick_sort.solution, sorted(copy.copy(input_arr))))
             time_dict["merge_sort"].append(benchmark(merge_sort.merge_sort, sorted(copy.copy(input_arr))))
             time_dict["heap_sort"].append(benchmark(heap_sort.heap_sort, sorted(copy.copy(input_arr))))
             time_dict["standard_sort"].append(standard_benchmark(sorted(copy.copy(input_arr))))
+            time_dict["radix_sort"].append(benchmark(radix_sort.solution, sorted(copy.copy(input_arr))))
 
     time_list1 = time_dict["quick_sort"]
     time_list2 = time_dict["merge_sort"]
     time_list3 = time_dict["heap_sort"]
     time_list4 = time_dict["standard_sort"]
+    time_list5 = time_dict["radix_sort"]
 
-    return size_list, [time_list1, time_list2, time_list3, time_list4]
+    return size_list, [time_list1, time_list2, time_list3, time_list4, time_list5]
 
 
 def plot_builds(fig, max_array_length: int, colors: List[object], labels: List[object], build_sorts):
@@ -92,8 +97,8 @@ def plot_builds(fig, max_array_length: int, colors: List[object], labels: List[o
 
 def main():
     max_array_length = 10000
-    colors = ['red', 'green', 'blue', 'black']
-    labels1 = ['quicksort', 'mergesort', 'heapsort', 'standardsort']
+    colors = ['red', 'green', 'blue', 'black', "yellow"]
+    labels1 = ['quicksort', 'mergesort', 'heapsort', 'standardsort', 'radixsort']
     labels2 = ['bubblesort', 'insertionsort', 'selectionsort', 'standardsort']
 
     fig1 = plt.figure()
