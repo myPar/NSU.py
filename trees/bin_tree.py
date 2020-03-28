@@ -60,9 +60,19 @@ def generate_tree(node_number: int, span: int) -> Tree:
 
 
 def main():
-    tree = generate_tree(10, 10)
+    tree = Tree(None)
+    tree.insert(Node(10))
+    tree.insert(Node(12))
+    tree.insert(Node(9))
+    tree.insert(Node(9))
+    tree.insert(Node(8))
+    tree.insert(Node(10))
     print_tree(tree.root)
-    print("\n")
+    print()
+    tree.insert(Node(10))
+    tree.insert(Node(10))
+    tree.insert(Node(10))
+    print_tree(tree.root)
 
 
 if __name__ == "__main__":
