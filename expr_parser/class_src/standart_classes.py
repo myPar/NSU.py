@@ -1,6 +1,7 @@
 from enum import Enum
 from expr_parser.class_src.Exception import*
 import re
+mode = 1    # global variable means the mode of exception printing
 
 
 # character type enum
@@ -24,8 +25,17 @@ class StandardNode(object):
 class AstNode(StandardNode):
     def __init__(self, value, pos):
         StandardNode.__init__(self, value)
-        self.position = pos
-        self.type = self.get_type(self)
+        self.position = pos  # Token position in input arithmetic expression
+        self.type = self.get_type()  # Token type
+
+        self.size = 0       # this field recognize the vertical size of OPERATOR block or vertical size of IDENT
+        self.h_offset = 0   # horizontal offset of Token
+        self.v_offset = 0   # vertical offset of Token
+
+    # check if IDENT consist from several number of characters and starts with zero
+    def is_correct_ident(self):
+        if len(self.value) > 1 and self.value[0] == "0":
+            StandardExpressionException("incorrect IDENT", self.position).throw(mode)
 
     def get_type(self):
         if self.value == "(":
@@ -34,8 +44,9 @@ class AstNode(StandardNode):
             return Type.CLOSE_PARENTHESIS
         if re.search(r'[\+\*\/\-\(\)]', self.value):
             return Type.OPERATOR
-        if re.search(r'[0-9]'):
+        if re.search(r'[0-9]', self.value):
+            self.is_correct_ident()
             return Type.IDENT
-        if re.search(r'[A-Za-z]'):
+        if re.search(r'[A-Za-z]', self.value):
             return Type.OPERAND
-        raise GetTypeException("Unresolved character in arithmetic expression", self.position)
+        GetTypeException("Unresolved character in arithmetic expression", self.position).throw(mode)
