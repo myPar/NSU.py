@@ -9,7 +9,7 @@ class Type(Enum):
     OPEN_PARENTHESIS = "OPEN_PARENTHESIS"
     CLOSE_PARENTHESIS = "CLOSE_PARENTHESIS"
     OPERATOR = "OPERATOR"
-    OPERAND = "OPERATOR"
+    OPERAND = "OPERAND"
     IDENT = "IDENT"
 
 
@@ -50,3 +50,6 @@ class AstNode(StandardNode):
         if re.search(r'[A-Za-z]', self.value):
             return Type.OPERAND
         GetTypeException("Unresolved character in arithmetic expression", self.position).throw(mode)
+
+    def print(self):
+        print("{type=" + self.type.name + " , val= '" + self.value + "'" + " , pos=" + str(self.position) + "}")
