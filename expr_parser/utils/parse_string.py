@@ -31,14 +31,3 @@ def parse_string(input_string: str) -> List[AstNode]:
         pos += 1
 
     return output_node_list
-
-
-def main():
-    input_string = input()
-    node_list = parse_string(input_string)
-    for node in node_list:
-        node.print()
-
-
-if __name__ == "__main__":
-    main()

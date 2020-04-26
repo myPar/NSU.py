@@ -51,5 +51,13 @@ class AstNode(StandardNode):
             return Type.OPERAND
         GetTypeException("Unresolved character in arithmetic expression", self.position).throw(mode)
 
+    def get_priority(self) -> int:
+        if self.type == Type.OPERATOR:
+            if self.value == "-" or self.value == "+":
+                return 1
+            if self.value == "/" or self.value == "*":
+                return 2
+        GetOperatorPriorityException("only OPERATOR type tokens has the priority", self.position).throw(mode)
+
     def print(self):
         print("{type=" + self.type.name + " , val= '" + self.value + "'" + " , pos=" + str(self.position) + "}")

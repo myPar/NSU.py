@@ -31,3 +31,8 @@ class GetTypeException(StandardExpressionException):
 class ParenthesisBalanceException(StandardExpressionException):
     def __init__(self, text, pos):
         StandardExpressionException.__init__(self, text, pos)
+
+
+class GetOperatorPriorityException(StandardExpressionException):
+    def __init__(self, text, pos):
+        StandardExpressionException.__init__(self, text, pos)
