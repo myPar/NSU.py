@@ -36,3 +36,13 @@ class ParenthesisBalanceException(StandardExpressionException):
 class GetOperatorPriorityException(StandardExpressionException):
     def __init__(self, text, pos):
         StandardExpressionException.__init__(self, text, pos)
+
+
+class BuildAbstractSyntaxTreeException(StandardExpressionException):
+    def __init__(self, text, pos):
+        StandardExpressionException.__init__(self, text, pos)
+
+
+class InfixFormatException(StandardExpressionException):
+    def __init__(self, text, pos):
+        StandardExpressionException.__init__(self, text, pos)

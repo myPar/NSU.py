@@ -1,9 +1,7 @@
 from expr_parser.class_src.Exception import*
-from expr_parser.class_src.standart_classes import AstNode
+from expr_parser.class_src.standart_classes import AstNode, mode
 from expr_parser.class_src.standart_classes import Type
 from typing import List
-
-mode = 1
 
 
 # builds reverse polish notation
@@ -63,4 +61,4 @@ def build_notation(node_list: List[AstNode]) -> List[AstNode]:
 
 def print_notation(notation: List[AstNode]):
     for node in notation:
-        print(node.value, end='')
+        print(node.value, end=' ')
